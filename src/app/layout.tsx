@@ -2,8 +2,10 @@ import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { env } from "~/env";
 
 export const metadata: Metadata = {
     title: "Create T3 App",
@@ -19,6 +21,7 @@ export default function RootLayout({
             <body>
                 <TRPCReactProvider>{children}</TRPCReactProvider>
             </body>
+            <GoogleAnalytics gaId={env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} />
         </html>
     );
 }
