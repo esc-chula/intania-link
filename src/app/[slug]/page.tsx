@@ -50,19 +50,9 @@ export default async function Page({
         return notFound();
     }
 
-    const count = await api.count.getLinkVisitedCount({
-        link: link.URL,
+    await api.count.updateLinkVisitedCount({
+        url: link.URL,
     });
-
-    if (count === 0) {
-        await api.count.createLinkVisitedCount({
-            link: link.URL,
-        });
-    } else {
-        await api.count.updateLinkVisitedCount({
-            link: link.URL,
-        });
-    }
 
     redirect(link.URL);
 }

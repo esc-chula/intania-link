@@ -5,44 +5,27 @@ export const countRouter = createTRPCRouter({
     getLinkVisitedCount: publicProcedure
         .input(
             z.object({
-                link: z.string(),
+                url: z.string(),
             }),
         )
         .query(async ({ ctx, input }) => {
-            const count = await ctx.db.counter.findUnique({
+            const count = await ctx.db.userShortenedLink.findUnique({
                 where: {
-                    link: input.link,
+                    url: input.url,
                 },
             });
             return count?.count ?? 0;
         }),
-    createLinkVisitedCount: publicProcedure
-        .input(
-            z.object({
-                link: z.string(),
-            }),
-        )
-        .mutation(async ({ ctx, input }) => {
-            await ctx.db.counter.create({
-                data: {
-                    link: input.link,
-                    count: 1,
-                },
-            });
-            return {
-                message: "Link count created",
-            };
-        }),
     updateLinkVisitedCount: publicProcedure
         .input(
             z.object({
-                link: z.string(),
+                url: z.string(),
             }),
         )
         .mutation(async ({ ctx, input }) => {
-            await ctx.db.counter.update({
+            await ctx.db.userShortenedLink.update({
                 where: {
-                    link: input.link,
+                    url: input.url,
                 },
                 data: {
                     count: {

@@ -29,6 +29,7 @@ model UserShortenedLink {
     editedAt DateTime @default(now())
     user     User     @relation(fields: [userId], references: [id], name: "UserToShortenedLink")
     userId   Int
+    count    Int      @default(0)
 }
 
 model UserQrCode {
@@ -41,9 +42,4 @@ model UserQrCode {
     editedAt DateTime @default(now())
     user     User     @relation(fields: [userId], references: [id], name: "UserToQrCodeGen")
     userId   Int
-}
-
-model Counter {
-    link  String @id @unique
-    count Int
 }
