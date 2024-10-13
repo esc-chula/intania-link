@@ -5,7 +5,6 @@ import { notFound, redirect } from "next/navigation";
 import { axiosNocoDB } from "~/lib/axios";
 import { type NocoDBGetResponse } from "~/types/nocodb";
 import { type Link } from "~/types/link";
-import { countRouter } from "~/server/api/routers/count";
 import { api } from "~/trpc/server";
 
 export const metadata: Metadata = {
