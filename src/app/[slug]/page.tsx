@@ -5,6 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import { axiosNocoDB } from "~/lib/axios";
 import { type NocoDBGetResponse } from "~/types/nocodb";
 import { type Link } from "~/types/link";
+import { api } from "~/trpc/server";
 
 export const metadata: Metadata = {
     title: "Redirecting...",
@@ -48,6 +49,10 @@ export default async function Page({
     if (!link) {
         return notFound();
     }
+
+    await api.count.updateLinkVisitedCount({
+        url: link.URL,
+    });
 
     redirect(link.URL);
 }
