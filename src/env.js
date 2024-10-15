@@ -12,6 +12,7 @@ export const env = createEnv({
         NOCODB_TABLE_ID: z.string(),
     },
     client: {
+        NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: z.string(),
         // NEXT_PUBLIC_CLIENTVAR: z.string(),
     },
     runtimeEnv: {
@@ -20,6 +21,7 @@ export const env = createEnv({
         NOCODB_API_ENDPOINT: process.env.NOCODB_API_ENDPOINT,
         NOCODB_API_TOKEN: process.env.NOCODB_API_TOKEN,
         NOCODB_TABLE_ID: process.env.NOCODB_TABLE_ID,
+        NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
         // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
     },
     skipValidation: !!process.env.SKIP_ENV_VALIDATION,
