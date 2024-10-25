@@ -22,14 +22,31 @@ model User {
 }
 
 model UserShortenedLink {
-    id       Int      @id @default(autoincrement())
-    name     String
-    url      String
-    slug     String   @unique
+    id     Int    @id @default(autoincrement())
+    name   String
+    url    String
+    slug   String @unique
+    user   User   @relation(fields: [userId], references: [id], name: "UserToShortenedLink")
+    userId Int
+    count  Int    @default(0)
+
+    editedAt                 DateTime                   @default(now())
+    UserShortenedLinkVisited UserShortenedLinkVisited[]
+}
+
+model UserShortenedLinkVisited {
+    id                 Int     @id @default(autoincrement())
+    utmCampaignSource  String?
+    utmCampaignMedium  String?
+    utmCampaignName    String?
+    utmCampaignId      String?
+    utmCampaignTerm    String?
+    utmCampaignContent String?
+
     editedAt DateTime @default(now())
-    user     User     @relation(fields: [userId], references: [id], name: "UserToShortenedLink")
-    userId   Int
-    count    Int      @default(0)
+
+    UserShortenedLink     UserShortenedLink? @relation(fields: [userShortenedLinkSlug], references: [slug])
+    userShortenedLinkSlug String
 }
 
 model UserQrCode {

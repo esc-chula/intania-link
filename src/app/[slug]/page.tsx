@@ -37,12 +37,23 @@ async function getLink(slug: string): Promise<Link | null> {
 
 export const revalidate = 300;
 
+interface SearchParamProps {
+    utm_source?: string;
+    utm_medium?: string;
+    utm_campaign?: string;
+    utm_id?: string;
+    utm_term?: string;
+    utm_content?: string;
+}
+
 export default async function Page({
     params: { slug },
+    searchParams,
 }: {
     params: {
         slug: string;
     };
+    searchParams: SearchParamProps;
 }): Promise<JSX.Element> {
     const link = await getLink(slug);
 
@@ -51,7 +62,8 @@ export default async function Page({
     }
 
     await api.count.updateLinkVisitedCount({
-        url: link.URL,
+        slug,
+        searchParams,
     });
 
     redirect(link.URL);
