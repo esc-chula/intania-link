@@ -37,8 +37,7 @@ model UserShortenedLink {
 }
 
 model UserShortenedLinkVisitedRecord {
-    id Int @id @default(autoincrement())
-
+    id                  Int     @id @default(autoincrement())
     utmCampaignSource   String?
     utmCampaignMedium   String?
     utmCampaignName     String?
