@@ -8,15 +8,16 @@ datasource db {
 }
 
 model User {
-    id                 Int                 @id @default(autoincrement())
-    oidcId             String              @unique
-    studentId          String              @unique
-    firstNameTh        String
-    middleNameTh       String?
-    lastNameTh         String
-    firstNameEn        String
-    middleNameEn       String?
-    lastNameEn         String
+    id           Int     @id @default(autoincrement())
+    oidcId       String  @unique
+    studentId    String  @unique
+    firstNameTh  String
+    middleNameTh String?
+    lastNameTh   String
+    firstNameEn  String
+    middleNameEn String?
+    lastNameEn   String
+
     userShortenedLinks UserShortenedLink[] @relation("UserToShortenedLink")
     userQrCodes        UserQrCode[]        @relation("UserToQrCodeGen")
 }
@@ -26,17 +27,18 @@ model UserShortenedLink {
     name   String
     url    String
     slug   String @unique
-    user   User   @relation(fields: [userId], references: [id], name: "UserToShortenedLink")
     userId Int
     count  Int    @default(0)
 
-    UserShortenedLinkVisitedRecord UserShortenedLinkVisitedRecord[]
+    user                            User                             @relation(fields: [userId], references: [id], name: "UserToShortenedLink")
+    userShortenedLinkVisitedRecords UserShortenedLinkVisitedRecord[] @relation("UserShortenedLinkVisitedRecords")
 
     editedAt DateTime @default(now())
 }
 
 model UserShortenedLinkVisitedRecord {
-    id                  Int     @id @default(autoincrement())
+    id Int @id @default(autoincrement())
+
     utmCampaignSource   String?
     utmCampaignMedium   String?
     utmCampaignName     String?
@@ -45,7 +47,7 @@ model UserShortenedLinkVisitedRecord {
     utmCampaignContent  String?
     userShortenedLinkId Int
 
-    userShortenedLink UserShortenedLink @relation(fields: [userShortenedLinkId], references: [id])
+    userShortenedLink UserShortenedLink @relation(fields: [userShortenedLinkId], references: [id], name: "UserShortenedLinkVisitedRecords")
 
     editedAt DateTime @default(now())
 }

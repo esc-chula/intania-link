@@ -42,7 +42,7 @@ export const countRouter = createTRPCRouter({
                 },
             });
             if (Object.keys(input.searchParams).length) {
-                await ctx.db.userShortenedLinkVisited.create({
+                await ctx.db.userShortenedLinkVisitedRecord.create({
                     data: {
                         UserShortenedLink: {
                             connect: {
