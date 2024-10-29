@@ -5,13 +5,13 @@ export const countRouter = createTRPCRouter({
     getLinkVisitedCount: publicProcedure
         .input(
             z.object({
-                url: z.string(),
+                slug: z.string(),
             }),
         )
         .query(async ({ ctx, input }) => {
             const count = await ctx.db.userShortenedLink.findUnique({
                 where: {
-                    url: input.url,
+                    slug: input.slug,
                 },
             });
             return count?.count ?? 0;
@@ -19,13 +19,21 @@ export const countRouter = createTRPCRouter({
     updateLinkVisitedCount: publicProcedure
         .input(
             z.object({
-                url: z.string(),
+                slug: z.string(),
+                searchParams: z.object({
+                    utm_source: z.string().optional(),
+                    utm_medium: z.string().optional(),
+                    utm_campaign: z.string().optional(),
+                    utm_id: z.string().optional(),
+                    utm_term: z.string().optional(),
+                    utm_content: z.string().optional(),
+                }),
             }),
         )
         .mutation(async ({ ctx, input }) => {
-            await ctx.db.userShortenedLink.update({
+            await ctx.db.userShortenedLink.updateMany({
                 where: {
-                    url: input.url,
+                    slug: input.slug,
                 },
                 data: {
                     count: {
@@ -33,6 +41,27 @@ export const countRouter = createTRPCRouter({
                     },
                 },
             });
+            if (Object.keys(input.searchParams).length) {
+                await ctx.db.userShortenedLinkVisitedRecord.create({
+                    data: {
+                        UserShortenedLink: {
+                            connect: {
+                                slug: input.slug,
+                            },
+                        },
+                        utmCampaignSource:
+                            input.searchParams.utm_source ?? null,
+                        utmCampaignMedium:
+                            input.searchParams.utm_medium ?? null,
+                        utmCampaignName:
+                            input.searchParams.utm_campaign ?? null,
+                        utmCampaignTerm: input.searchParams.utm_term ?? null,
+                        utmCampaignContent:
+                            input.searchParams.utm_content ?? null,
+                    },
+                });
+            }
+
             return {
                 message: "Link visited count updated",
             };
