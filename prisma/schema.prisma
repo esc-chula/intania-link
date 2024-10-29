@@ -23,13 +23,13 @@ model User {
 }
 
 model UserShortenedLink {
-    id     Int    @id @default(autoincrement())
-    name   String
-    url    String
-    slug   String @unique
-    userId Int
-    count  Int    @default(0)
+    id    Int    @id @default(autoincrement())
+    name  String
+    url   String
+    slug  String @unique
+    count Int    @default(0)
 
+    userId                          Int
     user                            User                             @relation(fields: [userId], references: [id], name: "UserToShortenedLink")
     userShortenedLinkVisitedRecords UserShortenedLinkVisitedRecord[] @relation("UserShortenedLinkVisitedRecords")
 
@@ -37,16 +37,16 @@ model UserShortenedLink {
 }
 
 model UserShortenedLinkVisitedRecord {
-    id                  Int     @id @default(autoincrement())
-    utmCampaignSource   String?
-    utmCampaignMedium   String?
-    utmCampaignName     String?
-    utmCampaignId       String?
-    utmCampaignTerm     String?
-    utmCampaignContent  String?
-    userShortenedLinkId Int
+    id                 Int     @id @default(autoincrement())
+    utmCampaignSource  String?
+    utmCampaignMedium  String?
+    utmCampaignName    String?
+    utmCampaignId      String?
+    utmCampaignTerm    String?
+    utmCampaignContent String?
 
-    userShortenedLink UserShortenedLink @relation(fields: [userShortenedLinkId], references: [id], name: "UserShortenedLinkVisitedRecords")
+    userShortenedLinkId Int
+    userShortenedLink   UserShortenedLink @relation(fields: [userShortenedLinkId], references: [id], name: "UserShortenedLinkVisitedRecords")
 
     editedAt DateTime @default(now())
 }
@@ -58,9 +58,9 @@ model UserQrCode {
     qrCode String
     color  String
     logo   String?
-    userId Int
 
-    user User @relation(fields: [userId], references: [id], name: "UserToQrCodeGen")
+    userId Int
+    user   User @relation(fields: [userId], references: [id], name: "UserToQrCodeGen")
 
     editedAt DateTime @default(now())
 }
