@@ -1,37 +1,29 @@
-import { type AxiosResponse } from 'axios';
 import { type Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import { env } from '~/env';
-import { axiosNocoDB } from '~/lib/axios';
 import { api } from '~/trpc/server';
-import { type Link } from '~/types/link';
-import { type NocoDBGetResponse } from '~/types/nocodb';
+import { type ShortenedLink } from '~/types/link-shortener';
 
 export const metadata: Metadata = {
   title: 'Redirecting...',
 };
 
-async function getLink(slug: string): Promise<Link | null> {
+async function getLink(slug: string): Promise<ShortenedLink | null> {
   try {
-    const links = await axiosNocoDB
-      .get(`/${env.NOCODB_TABLE_ID}/records`, {
-        params: {
-          where: `(Slug,eq,${slug})`,
-        },
-      })
-      .then((res: AxiosResponse<NocoDBGetResponse<Link>>) => {
-        return res.data.list;
-      });
+    const res = await api.linkShortener.getBySlug({
+      slug,
+    });
 
-    const foundedLink = links.find((link) => link.Slug === slug);
-
-    if (!foundedLink) {
+    if (!res.success) {
       return null;
     }
 
-    return foundedLink;
-  } catch (error) {
+    if (!res.data) {
+      return null;
+    }
+
+    return res.data;
+  } catch {
     return null;
   }
 }
@@ -64,7 +56,7 @@ const Page: React.FC<PageProps> = async ({
     return notFound();
   }
 
-  await api.count.updateLinkVisitedCount({
+  await api.linkShortenerRecrods.updateLinkVisitedCount({
     slug,
     searchParams,
   });
