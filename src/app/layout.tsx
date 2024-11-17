@@ -1,7 +1,6 @@
 import '~/styles/globals.css';
 
 import { GoogleAnalytics } from '@next/third-parties/google';
-import { GeistSans } from 'geist/font/sans';
 import { type Metadata } from 'next';
 
 import { env } from '~/env';
@@ -17,7 +16,7 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
   children,
 }) => {
   return (
-    <html className={GeistSans.variable} lang="en">
+    <html lang="en">
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>

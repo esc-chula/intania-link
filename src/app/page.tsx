@@ -1,5 +1,7 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-export default async function Home() {
-    notFound();
-}
+const Home: React.FC = () => {
+  notFound();
+};
+
+export default Home;

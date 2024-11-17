@@ -61,7 +61,7 @@ const Page: React.FC<PageProps> = async ({
     searchParams,
   });
 
-  redirect(link.URL);
+  redirect(link.url);
 };
 
 export default Page;
