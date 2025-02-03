@@ -1,4 +1,4 @@
-# Contributing Guide to Tech Department Website
+# Contributing Guide to Intania Link
 
 ## Prerequisites
 
