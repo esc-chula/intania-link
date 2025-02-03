@@ -1,5 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
-    provider = "prisma-client-js"
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
@@ -8,15 +12,9 @@ datasource db {
 }
 
 model User {
-    id           Int     @id @default(autoincrement())
-    oidcId       String  @unique
-    studentId    String  @unique
-    firstNameTh  String
-    middleNameTh String?
-    lastNameTh   String
-    firstNameEn  String
-    middleNameEn String?
-    lastNameEn   String
+    id        Int    @id @default(autoincrement())
+    oidcId    String @unique
+    studentId String @unique
 
     userShortenedLinks UserShortenedLink[] @relation("UserToShortenedLink")
     userQrCodes        UserQrCode[]        @relation("UserToQrCodeGen")
@@ -38,15 +36,15 @@ model UserShortenedLink {
 
 model UserShortenedLinkVisitedRecord {
     id                 Int     @id @default(autoincrement())
+    utmCampaignId      String?
     utmCampaignSource  String?
     utmCampaignMedium  String?
     utmCampaignName    String?
-    utmCampaignId      String?
     utmCampaignTerm    String?
     utmCampaignContent String?
 
     userShortenedLinkId Int
-    userShortenedLink   UserShortenedLink @relation(fields: [userShortenedLinkId], references: [id], name: "UserShortenedLinkVisitedRecords")
+    userShortenedLink   UserShortenedLink @relation(fields: [userShortenedLinkId], references: [id], name: "UserShortenedLinkVisitedRecords", onUpdate: Cascade, onDelete: Cascade)
 
     editedAt DateTime @default(now())
 }
@@ -63,4 +61,10 @@ model UserQrCode {
     user   User @relation(fields: [userId], references: [id], name: "UserToQrCodeGen")
 
     editedAt DateTime @default(now())
+}
+
+model TechMonthStamp {
+    id        Int    @id @default(autoincrement())
+    studentId String
+    eventId   String
 }
