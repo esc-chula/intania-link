@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { createTRPCRouter, trpc } from '../trpc';
 
-export const countRouter = createTRPCRouter({
+export const linkShortenerRecordsRouter = createTRPCRouter({
   getLinkVisitedCount: trpc
     .input(
       z.object({
@@ -17,6 +17,7 @@ export const countRouter = createTRPCRouter({
       });
       return count?.count ?? 0;
     }),
+
   updateLinkVisitedCount: trpc
     .input(
       z.object({
@@ -32,6 +33,7 @@ export const countRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      console.log(input.searchParams);
       await ctx.db.userShortenedLink.updateMany({
         where: {
           slug: input.slug,
@@ -53,6 +55,7 @@ export const countRouter = createTRPCRouter({
             utmCampaignSource: input.searchParams.utm_source ?? null,
             utmCampaignMedium: input.searchParams.utm_medium ?? null,
             utmCampaignName: input.searchParams.utm_campaign ?? null,
+            utmCampaignId: input.searchParams.utm_id ?? null,
             utmCampaignTerm: input.searchParams.utm_term ?? null,
             utmCampaignContent: input.searchParams.utm_content ?? null,
           },

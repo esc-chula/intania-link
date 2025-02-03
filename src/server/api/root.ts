@@ -1,9 +1,11 @@
 import { createCallerFactory, createTRPCRouter } from '~/server/api/trpc';
 
-import { countRouter } from './routers/count';
+import { linkShortenerRouter } from './routers/link-shortener';
+import { linkShortenerRecordsRouter } from './routers/link-shortener-records';
 
 export const appRouter = createTRPCRouter({
-  count: countRouter,
+  linkShortener: linkShortenerRouter,
+  linkShortenerRecrods: linkShortenerRecordsRouter,
 });
 
 export type AppRouter = typeof appRouter;
