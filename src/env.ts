@@ -10,7 +10,7 @@ export const env = createEnv({
       .default('development'),
   },
   client: {
-    NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: z.string(),
+    NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: z.string().optional(),
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
