@@ -20,7 +20,7 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
-      <GoogleAnalytics gaId={env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} />
+      <GoogleAnalytics gaId={env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? ''} />
     </html>
   );
 };
