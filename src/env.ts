@@ -1,4 +1,5 @@
 import { createEnv } from '@t3-oss/env-nextjs';
+import { env as runtimeEnv } from 'next-runtime-env';
 import { z } from 'zod';
 
 export const env = createEnv({
@@ -14,8 +15,9 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
-    NEXT_PUBLIC_GOOGLE_ANALYTICS_ID:
-      process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID,
+    NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: runtimeEnv(
+      'NEXT_PUBLIC_GOOGLE_ANALYTICS_ID',
+    ),
   },
   skipValidation: Boolean(process.env.SKIP_ENV_VALIDATION),
   emptyStringAsUndefined: true,
