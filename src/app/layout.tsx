@@ -1,7 +1,8 @@
 import '~/styles/globals.css';
 
-import { GoogleAnalytics } from '@next/third-parties/google';
 import { type Metadata } from 'next';
+import Script from 'next/script';
+import { PublicEnvScript } from 'next-runtime-env';
 
 import { env } from '~/env';
 import { TRPCReactProvider } from '~/trpc/react';
@@ -17,10 +18,27 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
 }) => {
   return (
     <html lang="en">
+      <head>
+        <Script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${
+            env.NEXT_PUBLIC_GTM_ID ?? ''
+          }`}
+        />
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', '${env.NEXT_PUBLIC_GTM_ID ?? ''}');
+          `}
+        </Script>
+        <PublicEnvScript />
+      </head>
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
-      <GoogleAnalytics gaId={env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? ''} />
     </html>
   );
 };

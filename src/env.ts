@@ -10,14 +10,12 @@ export const env = createEnv({
       .default('development'),
   },
   client: {
-    NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: z.string().optional(),
+    NEXT_PUBLIC_GTM_ID: z.string().optional(),
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
-    NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: runtimeEnv(
-      'NEXT_PUBLIC_GOOGLE_ANALYTICS_ID',
-    ),
+    NEXT_PUBLIC_GTM_ID: runtimeEnv('NEXT_PUBLIC_GTM_ID'),
   },
   skipValidation: Boolean(process.env.SKIP_ENV_VALIDATION),
   emptyStringAsUndefined: true,
